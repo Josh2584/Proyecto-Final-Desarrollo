@@ -1,1 +1,8 @@
 tools/otp_win64_27.3.4.11.exe
+target/
+**/target/
+runtime/
+*.log
+*.dump
+Proyecto Desa/
+tools/otp_win64_27.3.4.11.exe
