@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas - Gran Malo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: sidebar(${pagina})}"></div>
+<main class="main">
+    <header class="topbar">
+        <div>
+            <h1>Consultas veterinarias</h1>
+            <p class="topbar-sub">Historial de consultas médicas realizadas a los animales</p>
+        </div>
+        <a th:if="${puedeConsultar}" th:href="@{/consultas/nueva}" class="btn-primary">Nueva consulta</a>
+    </header>
+    <section class="content">
+        <form th:action="@{/consultas}" method="get" class="filters-bar">
+            <div class="search-box wide">
+                <input name="buscar" placeholder="Buscar por animal, motivo o diagnóstico..." th:value="${buscar}">
+            </div>
+            <button class="btn-primary" type="submit">Buscar</button>
+            <a th:if="${buscar != null}" th:href="@{/consultas}" class="clear-link">Limpiar</a>
+        </form>
+        <div class="table-card">
+            <div class="table-header">
+                <h2>Consultas</h2>
+                <span class="count-badge" th:text="${#lists.size(consultas)} + ' registros'"></span>
+            </div>
+            <div th:if="${#lists.isEmpty(consultas)}" class="empty-state">No se encontraron consultas.</div>
+            <table th:unless="${#lists.isEmpty(consultas)}" class="data-table">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Fecha</th><th>Animal</th><th>Motivo</th>
+                    <th>Diagnóstico</th><th>Tratamiento</th><th>Veterinario</th><th>Costo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${consultas}">
+                    <td class="muted" th:text="'#' + ${c.id}"></td>
+                    <td class="muted" th:text="${c.fecha == null ? '-' : #temporals.format(c.fecha, 'dd/MM/yyyy')}"></td>
+                    <td><strong th:text="${c.animal ?: '-'}"></strong></td>
+                    <td class="muted" th:text="${c.motivo ?: '-'}"></td>
+                    <td class="muted" th:text="${c.diagnostico ?: '-'}"></td>
+                    <td class="muted" th:text="${c.tratamiento ?: '-'}"></td>
+                    <td class="muted" th:text="${c.empleado ?: '-'}"></td>
+                    <td>
+                        <strong th:if="${c.costo != null}" th:text="'$' + ${#numbers.formatDecimal(c.costo, 1, 'COMMA', 2, 'POINT')}"></strong>
+                        <span th:unless="${c.costo != null}" class="muted">-</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva cirugía - Gran Malo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: sidebar(${pagina})}"></div>
+<main class="main">
+    <header class="topbar">
+        <div>
+            <h1>Nueva cirugía</h1>
+            <p class="topbar-sub">Registrar una operación quirúrgica</p>
+        </div>
+        <a th:href="@{/operaciones}" class="clear-link">Volver</a>
+    </header>
+    <section class="content">
+        <form th:action="@{/operaciones/nueva}" method="post" class="form-card">
+            <div th:if="${clienteFijadoId != null}" class="info-box session-lock">
+                🧑 Cliente: <strong th:text="${clienteFijadoNombre}">Cliente</strong> · 💳 Pago: <strong th:text="${metodoPagoFijado}">Pago</strong>
+            </div>
+            <label th:if="${clienteFijadoId != null}">Cliente
+                <span class="fixed-field" th:text="${clienteFijadoNombre}">Cliente fijado</span>
+                <input type="hidden" name="clienteId" th:value="${clienteFijadoId}">
+            </label>
+            <label th:unless="${clienteFijadoId != null}">Cliente
+                <select name="clienteId" id="clienteSelect" required onchange="filtrarAnimalesPorCliente()">
+                    <option value="">Selecciona un cliente</option>
+                    <option th:each="c : ${clientes}" th:value="${c.id}" th:text="${c.nombre}"></option>
+                </select>
+            </label>
+            <label>Animal
+                <select name="animalId" id="animalSelect" required>
+                    <option value="">Selecciona un animal</option>
+                    <option th:each="a : ${animales}" th:value="${a.id}" th:data-cliente-id="${a.clienteId}" th:text="${a.nombre}"></option>
+                </select>
+            </label>
+            <div class="helper-note" id="animalNote" th:unless="${clienteFijadoId != null}">
+                Selecciona un cliente para ver solamente sus animales.
+            </div>
+            <label>Cirujano / Veterinario
+                <select name="empleadoId" required>
+                    <option value="">Selecciona un empleado</option>
+                    <option th:each="e : ${empleados}" th:value="${e.id}" th:text="${e.detalle == null ? e.nombre : e.nombre + ' (' + e.detalle + ')'}"></option>
+                </select>
+            </label>
+            <label th:if="${clienteFijadoId != null}">Método de pago
+                <span class="fixed-field" th:text="${metodoPagoFijado}">Método fijado</span>
+                <input type="hidden" name="metodoPago" th:value="${metodoPagoFijado}">
+            </label>
+            <label th:unless="${clienteFijadoId != null}">Método de pago
+                <select name="metodoPago" required>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Tarjeta">Tarjeta</option>
+                    <option value="Mixto">Mixto</option>
+                </select>
+            </label>
+            <label>Tipo de cirugía
+                <input name="tipoCirugia" maxlength="50" required placeholder="Ej. Esterilización">
+            </label>
+            <label>Descripción
+                <textarea name="descripcion" maxlength="100" placeholder="Detalles de la cirugía"></textarea>
+            </label>
+            <label>Costo de cirugía
+                <input type="number" name="costo" step="0.01" min="0" required placeholder="Ej. 1500.00">
+            </label>
+            <button class="btn-submit" type="submit">Agregar al carrito</button>
+        </form>
+    </section>
+</main>
+<script>
+function filtrarAnimalesPorCliente() {
+    const cliente = document.getElementById('clienteSelect');
+    const animal = document.getElementById('animalSelect');
+    const note = document.getElementById('animalNote');
+    if (!cliente || !animal) {
+        return;
+    }
+    const clienteId = cliente.value;
+    let visibles = 0;
+    Array.from(animal.options).forEach((option, index) => {
+        if (index === 0) {
+            option.hidden = false;
+            return;
+        }
+        const mostrar = clienteId !== '' && option.dataset.clienteId === clienteId;
+        option.hidden = !mostrar;
+        if (mostrar) {
+            visibles++;
+        }
+    });
+    animal.value = '';
+    animal.disabled = clienteId === '';
+    if (note) {
+        note.textContent = clienteId === ''
+            ? 'Selecciona un cliente para ver solamente sus animales.'
+            : visibles === 0 ? 'Este cliente no tiene animales registrados.' : visibles + ' animal(es) disponibles para este cliente.';
+    }
+}
+document.addEventListener('DOMContentLoaded', filtrarAnimalesPorCliente);
+</script>
+</body>
+</html>
+

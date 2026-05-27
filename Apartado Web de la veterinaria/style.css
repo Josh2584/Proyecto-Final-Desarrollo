@@ -1,0 +1,377 @@
+/* ============================================================
+   style.css — Estilos para Veterinaria Gran Malo
+   ============================================================ */
+
+/* --- Fuentes --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:ital,wght@0,600;1,400&display=swap');
+
+/* --- Variables de color --- */
+:root {
+    --teal-dark:   #0d4f45;
+    --teal-mid:    #1a7a67;
+    --teal-light:  #e0f5f1;
+    --accent:      #e8854a;
+    --accent-light:#fdf0e7;
+    --bg:          #f5f7f6;
+    --surface:     #ffffff;
+    --border:      #dde5e3;
+    --text-main:   #1a2421;
+    --text-muted:  #6b8077;
+    --sidebar-w:   240px;
+    --radius:      10px;
+}
+
+/* --- Reset básico --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+    width: var(--sidebar-w);
+    background: var(--teal-dark);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.sidebar-logo {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.sidebar-logo .logo-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    color: #ffffff;
+    line-height: 1.2;
+}
+.sidebar-logo .logo-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.sidebar-nav {
+    padding: 16px 0;
+    flex: 1;
+}
+.sidebar-section {
+    padding: 12px 24px 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+    border-left: 3px solid transparent;
+}
+.nav-link:hover {
+    background: rgba(255,255,255,0.08);
+    color: #ffffff;
+}
+.nav-link.active {
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+    border-left-color: var(--accent);
+}
+.nav-link svg {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+.nav-link.active svg { opacity: 1; }
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.topbar h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--teal-dark);
+    font-weight: 600;
+}
+.topbar-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+.content {
+    padding: 28px 32px;
+    flex: 1;
+}
+
+/* ============================================================
+   TARJETAS MÉTRICAS (índice)
+   ============================================================ */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+.metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.metric-card .metric-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+}
+.metric-card .metric-value {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    color: var(--teal-dark);
+    line-height: 1;
+}
+.metric-card .metric-icon {
+    width: 36px; height: 36px;
+    background: var(--teal-light);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 4px;
+}
+.metric-card .metric-icon svg {
+    width: 20px; height: 20px;
+    stroke: var(--teal-mid);
+}
+
+/* ============================================================
+   TABLA DE DATOS
+   ============================================================ */
+.table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+.table-header {
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+}
+.table-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    color: var(--teal-dark);
+}
+.table-header .count-badge {
+    font-size: 12px;
+    background: var(--teal-light);
+    color: var(--teal-mid);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.data-table thead th {
+    background: var(--bg);
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 10px 24px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+}
+.data-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+}
+.data-table tbody tr:last-child { border-bottom: none; }
+.data-table tbody tr:hover { background: var(--bg); }
+.data-table tbody td {
+    padding: 13px 24px;
+    color: var(--text-main);
+    vertical-align: middle;
+}
+.data-table tbody td.muted {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ============================================================
+   BADGES DE ESTADO
+   ============================================================ */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.badge-disponible { background: #e0f5e9; color: #1a6b3a; }
+.badge-vendido    { background: #fde8e8; color: #8b2020; }
+.badge-adopcion   { background: var(--accent-light); color: #7a3a0d; }
+.badge-receta     { background: #fde8e8; color: #8b2020; }
+.badge-libre      { background: var(--teal-light); color: var(--teal-mid); }
+.badge-consulta   { background: #e8edf8; color: #2a3f8b; }
+.badge-cirugia    { background: #fde8e8; color: #8b2020; }
+
+/* ============================================================
+   BUSCADOR / FILTROS
+   ============================================================ */
+.filters-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    flex: 1;
+    max-width: 360px;
+}
+.search-box input {
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text-main);
+    background: transparent;
+    width: 100%;
+}
+.search-box svg { width: 16px; height: 16px; stroke: var(--text-muted); flex-shrink: 0; }
+.filter-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text-main);
+    outline: none;
+    cursor: pointer;
+}
+
+/* ============================================================
+   TABS (operaciones)
+   ============================================================ */
+.tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 5px;
+    width: fit-content;
+    margin-bottom: 24px;
+}
+.tab-btn {
+    padding: 8px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.tab-btn.active {
+    background: var(--teal-dark);
+    color: #ffffff;
+}
+.tab-btn:hover:not(.active) { background: var(--bg); color: var(--text-main); }
+
+/* ============================================================
+   RESPONSIVE BÁSICO
+   ============================================================ */
+@media (max-width: 768px) {
+    :root { --sidebar-w: 0px; }
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .topbar { padding: 14px 16px; }
+    .content { padding: 16px; }
+    .data-table thead { display: none; }
+    .data-table tbody td { display: block; padding: 6px 16px; }
+    .data-table tbody td::before {
+        content: attr(data-label) ": ";
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 11px;
+        text-transform: uppercase;
+    }
+}
+
+/* ============================================================
+   MENSAJE SIN RESULTADOS / ERROR
+   ============================================================ */
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+}
+.empty-state svg { width: 48px; height: 48px; stroke: var(--border); margin-bottom: 12px; }
+.empty-state p { font-size: 15px; }
+
+.error-msg {
+    background: #fde8e8;
+    color: #8b2020;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    border-left: 4px solid #c0392b;
+}

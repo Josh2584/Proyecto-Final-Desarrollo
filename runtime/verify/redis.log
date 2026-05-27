@@ -1,0 +1,4 @@
+[21180] 26 May 23:46:56.004 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+[21180] 26 May 23:46:56.004 # Redis version=5.0.14.1, bits=64, commit=ec77f72d, modified=0, pid=21180, just started
+[21180] 26 May 23:46:56.006 # Configuration loaded
+[21180] 26 May 23:46:56.009 # Could not create server TCP listening socket 127.0.0.1:6379: bind: Se intentó realizar una operación en un elemento que no es un socket.

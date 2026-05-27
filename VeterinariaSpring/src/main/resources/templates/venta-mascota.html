@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venta de mascota - Gran Malo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: sidebar(${pagina})}"></div>
+<main class="main">
+    <header class="topbar"><div><h1>Venta / Adopción de mascota</h1><p class="topbar-sub">Registrar una nueva venta o adopción</p></div><a th:href="@{/mascotas}" class="clear-link">Volver</a></header>
+    <section class="content">
+        <form th:action="@{/mascotas/venta}" method="post" class="form-card">
+            <div th:if="${clienteFijadoId != null}" class="info-box session-lock">
+                🧑 Cliente: <strong th:text="${clienteFijadoNombre}">Cliente</strong> · 💳 Pago: <strong th:text="${metodoPagoFijado}">Pago</strong>
+            </div>
+            <label>Animal
+                <select name="animalId" id="animalSelect" required onchange="actualizarPrecio()">
+                    <option value="">Selecciona un animal</option>
+                    <option th:each="a : ${animales}" th:value="${a.id}" th:data-precio="${a.precio ?: 0}" th:text="${a.nombre + ' (' + (a.detalle ?: 'Sin raza') + ')'}"></option>
+                </select>
+            </label>
+            <div class="info-box" id="precioPreview">Precio lista: $<span id="precioValor">0.00</span></div>
+            <label>Precio de venta ($)<input type="number" name="precioVenta" id="precioVenta" min="0" step="0.01" required></label>
+            <label th:if="${clienteFijadoId != null}">Cliente
+                <span class="fixed-field" th:text="${clienteFijadoNombre}">Cliente fijado</span>
+                <input type="hidden" name="clienteId" th:value="${clienteFijadoId}">
+            </label>
+            <label th:unless="${clienteFijadoId != null}">Cliente<select name="clienteId" required><option value="">Selecciona un cliente</option><option th:each="c : ${clientes}" th:value="${c.id}" th:text="${c.nombre}"></option></select></label>
+            <label>Empleado que atiende<select name="empleadoId" required><option value="">Selecciona un empleado</option><option th:each="e : ${empleados}" th:value="${e.id}" th:text="${e.nombre}"></option></select></label>
+            <label>Tipo de operación<select name="tipo" required><option value="Venta">Venta</option><option value="Adopcion">Adopción</option></select></label>
+            <label th:if="${clienteFijadoId != null}">Método de pago
+                <span class="fixed-field" th:text="${metodoPagoFijado}">Método fijado</span>
+                <input type="hidden" name="metodoPago" th:value="${metodoPagoFijado}">
+            </label>
+            <label th:unless="${clienteFijadoId != null}">Método de pago<select name="metodoPago" required><option value="Efectivo">Efectivo</option><option value="Tarjeta">Tarjeta</option><option value="Mixto">Mixto</option></select></label>
+            <button class="btn-submit" type="submit">Agregar al carrito</button>
+        </form>
+    </section>
+</main>
+<script>
+function actualizarPrecio() {
+    const select = document.getElementById('animalSelect');
+    const option = select.options[select.selectedIndex];
+    const precio = parseFloat(option.dataset.precio || '0');
+    document.getElementById('precioValor').textContent = precio.toFixed(2);
+    document.getElementById('precioVenta').value = precio.toFixed(2);
+    document.getElementById('precioPreview').style.display = precio > 0 ? 'block' : 'none';
+}
+</script>
+</body>
+</html>
+

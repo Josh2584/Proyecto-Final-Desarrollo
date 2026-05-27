@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket - Gran Malo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: sidebar(${pagina})}"></div>
+<main class="main">
+    <header class="topbar"><div><h1>Ticket de operación</h1><p class="topbar-sub">Comprobante generado exitosamente</p></div></header>
+    <section class="ticket-wrapper">
+        <article class="ticket-card">
+            <div class="ticket-header">
+                <div class="success-icon">✓</div>
+                <div class="tipo" th:text="${ticket.tipo}"></div>
+                <h1>Veterinaria Gran Malo</h1>
+                <div class="folio" th:text="${ticket.folio > 0 ? 'Folio #' + ticket.folio + ' · ' : ''} + ${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}"></div>
+            </div>
+            <div class="ticket-body">
+                <div class="ticket-row" th:each="row : ${ticket.datos}">
+                    <span class="label" th:text="${row.key}"></span>
+                    <span class="value" th:text="${row.value}"></span>
+                </div>
+                <div th:if="${ticket.total != null}" class="ticket-total">
+                    <span>Total</span>
+                    <strong th:text="'$' + ${#numbers.formatDecimal(ticket.total, 1, 'COMMA', 2, 'POINT')}"></strong>
+                </div>
+            </div>
+            <div class="ticket-footer">
+                <button class="btn-primary" onclick="window.print()">Imprimir ticket</button>
+                <a th:href="${ticket.volver}" class="btn-secondary">Volver</a>
+            </div>
+        </article>
+    </section>
+</main>
+</body>
+</html>

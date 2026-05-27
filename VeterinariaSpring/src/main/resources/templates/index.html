@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veterinaria Gran Malo - Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: sidebar(${pagina})}"></div>
+<main class="main">
+    <header class="topbar">
+        <div>
+            <h1>Panel principal</h1>
+            <p class="topbar-sub">Resumen general de la veterinaria</p>
+        </div>
+        <span class="muted" th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy')}"></span>
+    </header>
+    <section class="content">
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-label">Animales en sistema</span>
+                <span class="metric-value" th:text="${stats == null ? 0 : stats.totalAnimales}"></span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Disponibles para venta y adopción</span>
+                <span class="metric-value" th:text="${stats == null ? 0 : stats.animalesDisponibles}"></span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Productos en catálogo</span>
+                <span class="metric-value" th:text="${stats == null ? 0 : stats.totalProductos}"></span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Clientes registrados</span>
+                <span class="metric-value" th:text="${stats == null ? 0 : stats.totalClientes}"></span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Consultas realizadas</span>
+                <span class="metric-value" th:text="${stats == null ? 0 : stats.totalConsultas}"></span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Cirugías realizadas</span>
+                <span class="metric-value" th:text="${stats == null ? 0 : stats.totalCirugias}"></span>
+            </div>
+        </div>
+
+        <div class="quick-grid">
+            <a th:href="@{/mascotas}" class="quick-card">
+                <span>Ver sección</span>
+                <strong>Mascotas</strong>
+                <small>Animales disponibles para venta o adopción</small>
+            </a>
+            <a th:href="@{/productos}" class="quick-card">
+                <span>Ver sección</span>
+                <strong>Productos</strong>
+                <small>Catálogo de productos e inventario</small>
+            </a>
+            <a th:if="${puedeOperar}" th:href="@{/operaciones}" class="quick-card">
+                <span>Ver sección</span>
+                <strong>Operaciones</strong>
+                <small>Cirugías de animales</small>
+            </a>
+            <a th:if="${puedeConsultar}" th:href="@{/consultas}" class="quick-card">
+                <span>Ver sección</span>
+                <strong>Consultas</strong>
+                <small>Consultas veterinarias</small>
+            </a>
+        </div>
+    </section>
+</main>
+</body>
+</html>
